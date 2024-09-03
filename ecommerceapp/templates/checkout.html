@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">عربة التسوق</h1>
+    
+    <!-- Check if cart is not empty -->
+    {% if cart_items %}
+        <div class="cart-items">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>المنتج</th>
+                        <th>السعر</th>
+                        <th>الكمية</th>
+                        <th>المجموع</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.blend_name }}</td>
+                        <td>{{ item.product.price }} ريال</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.total_price }} ريال</td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end">
+            <h3>المجموع الكلي: {{ cart_total }} ريال</h3>
+            <a href="{% url 'auth_login' %}" class="btn btn-primary btn-lg">Checkout</a>
+            
+        </div>
+    {% else %}
+        <p>عربة التسوق فارغة.</p>
+    {% endif %}
+</div>
+{% endblock content %}

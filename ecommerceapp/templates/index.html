@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+
+{%block content%}
+<div class="container">
+    <h1 class="text-center badge bg-success"> عروض الصيف</h1>
+    <div class="row text-center d-flex justify-content-center mt-5">
+        <div class="col-sm-3">
+            <a href="{% url 'Coffee_shop' %}">
+            <div class="card border  mt-5">
+                <div class="card-body">
+                    <i class="bi bi-phone text-success" style="font-size: 60px;"></i>
+                    
+                    <h4>Coffee Shop</h4>
+                </div>
+            </div>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a href="{% url 'listitems' %}">
+            <div class="card border  mt-5">
+                <div class="card-body">
+                    <i class="bi bi-person-arms-up text-info" style="font-size: 60px;"></i>
+                    
+                    <h4>Clothes</h4>
+                </div>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+{%endblock content%}

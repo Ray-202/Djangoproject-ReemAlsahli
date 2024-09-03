@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <a href="{% url 'detailsCoffee' product.id %}">
+                    <img src="{{ product.image_bag.url }}" class="card-img-top img-fluid" alt="{{ product.blend_name }}">
+                </a>
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ product.blend_name }}</h5>
+                    <p class="card-text">{{ product.roastery_name }}</p>
+                    <p class="text-primary font-weight-bold">{{ product.price }} ريال</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

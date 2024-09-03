@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Image Thumbnails and Main Image -->
+        <div class="col-md-6">
+            <div class="d-flex">
+                <div class="thumbnail-images d-flex flex-column me-3">
+                    <img onclick="changeImage('{{ product.image_bag.url }}')" src="{{ product.image_bag.url }}" class="img-thumbnail mb-2" alt="Bag Image">
+                    <img onclick="changeImage('{{ product.image_notes.url }}')" src="{{ product.image_notes.url }}" class="img-thumbnail" alt="Notes Image">
+                </div>
+                <div class="main-image">
+                    <img id="mainProductImage" src="{{ product.image_bag.url }}" class="img-fluid" alt="{{ product.blend_name }}" data-bs-toggle="modal" data-bs-target="#imageModal">
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <div class="product-info">
+                <h1 class="mb-4">{{ product.blend_name }}</h1>
+                <p class="mb-2"><strong>Roastery:</strong> {{ product.roastery_name }}</p>
+                <p class="mb-2"><strong>Date of Roasting:</strong> {{ product.date_of_roasting }}</p>
+
+                <!-- Card for Description -->
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Description:</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                    </div>
+                </div>
+
+                <p class="text-primary font-weight-bold mb-4 mt-4">{{ product.price }} ريال</p>
+            </div>
+
+            <!-- "Add to Cart" Button with AJAX -->
+            <div class="pt-3">
+                <button id="addToCartButton" class="btn btn-primary btn-lg btn-block">
+                    اضف الى السلة <i class="bi bi-bag-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Image Display -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img id="modalProductImage" src="{{ product.image_bag.url }}" class="img-fluid" alt="{{ product.blend_name }}">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function changeImage(imageUrl) {
+        document.getElementById('mainProductImage').src = imageUrl;
+        document.getElementById('modalProductImage').src = imageUrl; // Update modal image too
+    }
+
+    $(document).ready(function() {
+        $('#addToCartButton').on('click', function() {
+            var productId = {{ product.id }};
+            
+            $.ajax({
+                url: "{% url 'add_to_cart' product.id %}",
+                method: "POST",
+                data: {
+                    product_id: productId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    $('#cart-item-count').text(response.cartItemCount);
+                    alert('Product added to cart!');
+                },
+                error: function(response) {
+                    alert('There was an error adding the product to the cart.');
+                }
+            });
+        });
+    });
+</script>
+{% endblock content %}
